@@ -1,0 +1,14 @@
+package core.base;
+
+import java.util.List;
+
+public interface BaseMapper<E, D> { // E = Entity, D = DTO
+
+    D toDto(E entity);
+
+    E toEntity(D dto);
+
+    List<D> toDtoList(List<E> entityList);
+
+    List<E> toEntityList(List<D> dtoList);
+}
