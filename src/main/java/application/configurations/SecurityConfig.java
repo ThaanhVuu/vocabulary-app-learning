@@ -32,14 +32,19 @@ public class SecurityConfig {
     private final RSAProperties rsaProperties;
 
     @Bean
-    public SecurityFilterChain chain(HttpSecurity http){
+    public SecurityFilterChain chain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/auth", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-//                        .anyRequest().authenticated()
-                                .anyRequest().permitAll()
-                );
+                                .requestMatchers(
+                                        "/api/v1/auth/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                ).permitAll()
+                                .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
@@ -62,12 +67,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

@@ -8,7 +8,9 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "users")
@@ -21,15 +23,17 @@ import java.util.Set;
 public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false, unique = true)
     @Searchable
-    private String email;
+    private String      email;
 
     @Column(nullable = false)
     @JsonIgnore
-    private String password;
+    private String      password;
 
-    @Column(name = "is_enabled")
+    private String      avatarUrl;
+
+    @Column(name = "enabled")
     @Builder.Default
-    private boolean enabled = false;
+    private boolean     enabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,4 +49,8 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return this.enabled;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Topic.class)
+    @Builder.Default
+    private List<Topic> topics = new ArrayList<>();
 }

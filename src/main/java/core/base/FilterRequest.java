@@ -1,23 +1,22 @@
 package core.base;
 
+import core.constants.Operator;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
+@Schema(description = "Chi tiết bộ lọc điều kiện")
 public class FilterRequest {
-    private String field;       // VD: "email"
-    private Operator operator;  // VD: Operator.LIKE
-    private Object value;       // VD: "gmail.com"
 
-    public enum Operator {
-        EQ,      // Bằng (=)
-        NEQ,     // Khác (!=)
-        GT,      // Lớn hơn (>)
-        LT,      // Nhỏ hơn (<)
-        GTE,     // Lớn hơn hoặc bằng (>=)
-        LTE,     // Nhỏ hơn hoặc bằng (<=)
-        LIKE,    // Tìm kiếm chuỗi (LIKE %...%)
-        IN,      // Nằm trong danh sách (IN)
-        BW,      // Between
-    }
+    @Schema(description = "Tên trường cần lọc (phải khớp với field trong Entity)", example = "name")
+    private String field;
+
+    @Schema(description = "Toán tử so sánh", example = "LIKE",
+            allowableValues = {"EQ", "NEQ", "LIKE", "GT", "LT", "GTE", "LTE", "IN"})
+    private Operator operator;
+
+    @Schema(description = "Giá trị cần lọc", example = "Java Programming")
+    private Object value;
 }

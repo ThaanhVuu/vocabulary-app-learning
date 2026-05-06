@@ -14,6 +14,14 @@ import java.util.Map;
 
 @Slf4j
 public class BaseExceptionHandler {
+    @ExceptionHandler(value = AppException.class)
+    public ResponseEntity<?> handleAppException(AppException ex) {
+        log.error("AppException caught: ", ex);
+        return ResponseEntity
+                .status(ex.getErrorCode().getHttpStatus())
+                .body(ApiResponse.error(ex.getErrorCode()));
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         // 1. Tạo một Map để chứa tên trường bị lỗi và câu thông báo

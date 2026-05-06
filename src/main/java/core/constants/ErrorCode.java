@@ -17,6 +17,7 @@ public enum ErrorCode implements IErrorCode {
     INVALID_TOKEN("0007", "Invalid session!", HttpStatus.UNAUTHORIZED),
     EXPIRED_SESSION("0008", "Session expired", HttpStatus.UNAUTHORIZED),
     INVALID_PROPERTIES("0009", "Invalid properties", HttpStatus.UNPROCESSABLE_CONTENT),
+    UNAUTH("0010", "Login require.", HttpStatus.UNAUTHORIZED)
             ;
 
     private final String code;

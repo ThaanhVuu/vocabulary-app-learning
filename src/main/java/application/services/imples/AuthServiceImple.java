@@ -7,6 +7,7 @@ import application.models.entities.User;
 import application.services.AuthService;
 import application.services.JwtService;
 import core.base.AppException;
+import core.constants.Constants;
 import core.constants.ErrorCode;
 import core.constants.JwtType;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AuthServiceImple implements AuthService {
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final UserServiceImple userService;
     private final StringRedisTemplate redisTemplate;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -46,8 +47,8 @@ public class AuthServiceImple implements AuthService {
 
         assert user != null;
 
-        String accessToken  = jwtService.generateJwt(user.getEmail(), JwtType.ACCESS, ACCESS_EXPIRY);
-        String refreshToken = jwtService.generateJwt(user.getEmail(), JwtType.REFRESH, REFRESH_EXPIRY);
+        String accessToken  = jwtService.generateJwt(user.getEmail(), user.getId(), JwtType.ACCESS, ACCESS_EXPIRY);
+        String refreshToken = jwtService.generateJwt(user.getEmail(), user.getId(), JwtType.REFRESH, REFRESH_EXPIRY);
 
         String key = buildKey(authentication.getName(), deviceId);
         redisTemplate.opsForValue().set(key, refreshToken, REFRESH_EXPIRY, TimeUnit.SECONDS);
@@ -70,9 +71,12 @@ public class AuthServiceImple implements AuthService {
             throw new AppException(ErrorCode.INVALID_TOKEN);
         }
 
-        String newAccess = jwtService.generateJwt(jwt.getSubject(), JwtType.ACCESS, ACCESS_EXPIRY);
+        String subjectIdStr = jwt.getClaimAsString(Constants.SUBJECT_ID.name());
+        long subjectId = Long.parseLong(subjectIdStr);
 
-        String newRefresh = jwtService.generateJwt(jwt.getSubject(), JwtType.REFRESH, REFRESH_EXPIRY);
+        String newAccess = jwtService.generateJwt(jwt.getSubject(), subjectId, JwtType.ACCESS, ACCESS_EXPIRY);
+
+        String newRefresh = jwtService.generateJwt(jwt.getSubject(), subjectId, JwtType.REFRESH, REFRESH_EXPIRY);
 
         redisTemplate.opsForValue().set(key, newRefresh, REFRESH_EXPIRY, TimeUnit.SECONDS);
 

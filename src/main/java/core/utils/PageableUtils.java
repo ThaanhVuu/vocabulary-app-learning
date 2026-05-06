@@ -16,7 +16,7 @@ public class PageableUtils {
 
         String sortBy = request.getSortBy();
         if (!StringUtils.hasText(sortBy)) {
-            sortBy = "id";
+            sortBy = "createdAt";
         }
 
         if (!isSearchable(entityClass, sortBy)) {

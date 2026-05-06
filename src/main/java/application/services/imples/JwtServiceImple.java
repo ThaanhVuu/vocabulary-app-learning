@@ -25,6 +25,7 @@ public class JwtServiceImple implements JwtService {
     @Override
     public String generateJwt(
             String  subject,
+            long subjectId,
             JwtType type,
             long expiry
     ) {
@@ -37,6 +38,7 @@ public class JwtServiceImple implements JwtService {
                 .issuedAt(now)
                 .expiresAt(now.plus(expiry, ChronoUnit.SECONDS))
                 .claim(Constants.TOKEN_TYPE.name(), type)
+                .claim(Constants.SUBJECT_ID.name(), subjectId)
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
