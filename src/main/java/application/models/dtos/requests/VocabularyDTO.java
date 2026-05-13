@@ -15,6 +15,4 @@ public class VocabularyDTO extends BaseDTO {
     private String english;
 
     private String example;
-
-    private Long topicId;
 }

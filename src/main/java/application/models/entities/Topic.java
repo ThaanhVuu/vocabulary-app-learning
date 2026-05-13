@@ -20,18 +20,19 @@ import java.util.Set;
 public class Topic extends BaseEntity {
     @Column(nullable = false)
     @Searchable
-    String                  name;
+    String name;
 
     @Searchable
-    long                    wordCount;
+    long wordCount;
 
     @Searchable
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id", nullable = false)
-    User                    user;
+    User user;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, targetEntity = Vocabulary.class, fetch = FetchType.LAZY, orphanRemoval = true)
     @MapKey(name = "english")
+    @Builder.Default
     Map<String, Vocabulary> vocabularies = new HashMap<>();
 
     public void addVocabulary(Vocabulary vocabulary) {

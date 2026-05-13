@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "english")
+@EqualsAndHashCode(callSuper = false, of = "english")
 public class Vocabulary extends BaseEntity {
 
     @Column(nullable = false)
