@@ -28,7 +28,7 @@ public class DynamicSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             for (FilterRequest filter : filters) {
-                String field = filter.getField();
+                String field = filter.getProperty();
 
                 // ✅ bỏ qua check @Searchable cho nested field
                 if (!field.contains(".") && !isSearchable(entityClass, field)) {

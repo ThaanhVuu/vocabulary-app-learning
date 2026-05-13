@@ -22,6 +22,6 @@ public class Vocabulary extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String example;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, targetEntity = Topic.class)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, targetEntity = Topic.class)
     Topic topic;
 }

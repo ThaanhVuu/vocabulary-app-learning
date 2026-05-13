@@ -20,5 +20,5 @@ public abstract class BaseDTO {
     @Schema(description = "Last update timestamp", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime   updatedAt;
 
-    private boolean         isDeleted;
+    private Boolean         isDeleted;
 }

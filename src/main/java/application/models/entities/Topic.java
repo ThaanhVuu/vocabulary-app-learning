@@ -5,7 +5,9 @@ import core.utils.Searchable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -18,16 +20,26 @@ import java.util.Set;
 public class Topic extends BaseEntity {
     @Column(nullable = false)
     @Searchable
-    String          name;
+    String                  name;
 
     @Searchable
-    long            wordCount;
+    long                    wordCount;
 
     @Searchable
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id", nullable = false)
-    User            user;
+    User                    user;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, targetEntity = Vocabulary.class, fetch = FetchType.LAZY, orphanRemoval = true)
-    Set<Vocabulary> vocabularies = new HashSet<>();
+    @MapKey(name = "english")
+    Map<String, Vocabulary> vocabularies = new HashMap<>();
+
+    public void addVocabulary(Vocabulary vocabulary) {
+        if (this.vocabularies == null) {
+            this.vocabularies = new HashMap<>();
+        }
+
+        this.vocabularies.put(vocabulary.getEnglish(), vocabulary);
+        vocabulary.setTopic(this);
+    }
 }

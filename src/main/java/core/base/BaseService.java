@@ -78,10 +78,10 @@ public abstract class BaseService<T extends BaseEntity, DTO extends BaseDTO, ID 
         return new AppException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * ==========================================
-     * 2. CRUD OPERATIONS
-     * ==========================================
+    /*
+      ==========================================
+      2. CRUD OPERATIONS
+      ==========================================
      */
 
     /**

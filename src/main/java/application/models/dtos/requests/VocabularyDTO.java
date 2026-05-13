@@ -2,7 +2,11 @@ package application.models.dtos.requests;
 
 import core.base.BaseDTO;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class VocabularyDTO extends BaseDTO {
     @NotBlank(message = "Vietnamese is require")
     private String vietnamese;
@@ -11,4 +15,6 @@ public class VocabularyDTO extends BaseDTO {
     private String english;
 
     private String example;
+
+    private Long topicId;
 }

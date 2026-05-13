@@ -10,8 +10,8 @@ import lombok.Setter;
 @Schema(description = "Chi tiết bộ lọc điều kiện")
 public class FilterRequest {
 
-    @Schema(description = "Tên trường cần lọc (phải khớp với field trong Entity)", example = "name")
-    private String field;
+    @Schema(description = "Tên trường cần lọc (phải khớp với property trong Entity)", example = "name")
+    private String property;
 
     @Schema(description = "Toán tử so sánh", example = "LIKE",
             allowableValues = {"EQ", "NEQ", "LIKE", "GT", "LT", "GTE", "LTE", "IN"})
